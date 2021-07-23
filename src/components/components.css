@@ -1,0 +1,69 @@
+.bg-dialog-modal{
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 100000;
+  top: 0;
+  left: 0;
+}
+
+.dialog-modal-block{
+  width: 40%;
+  box-sizing: border-box;
+  padding: 20px;
+  height: 550px;
+  border: 1px solid black;
+  background: #ffffff;
+  margin: 170px auto;
+}
+
+.header-modal-block{
+  width: 100%;
+  height: 30px;
+  padding: 5px;
+}
+
+.close-modal{
+  width: max-content;
+  float: right;
+  margin-right: 10px;
+  font-size: 20px;
+  color: rgb(62, 62, 75);
+  cursor: pointer;
+  text-align: center;
+  border-bottom: 3px solid #ffffff;
+  transition: border-bottom 0.2s;
+}
+
+.close-modal:hover {
+  border-bottom: 3px solid rgb(67, 70, 83);
+}
+
+.bar{
+  fill: rgb(172, 171, 171);
+}
+
+.d3-chart{
+  width: 100%;
+  margin: auto;
+}
+
+.btn-signout{
+  position: absolute;
+  z-index: 10000;
+  top: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #ffffff;
+  transition: outline 0.1s;
+}
+
+.btn-signout:hover {
+  outline: 2px solid #ffffff;
+}
