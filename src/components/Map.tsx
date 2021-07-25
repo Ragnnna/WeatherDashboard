@@ -7,10 +7,29 @@ import { RootState } from '../store/store'
 import { DialogWindow } from './DialogWindow'
 import './components.css'
 
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window
+  return {
+    width,
+    height
+  }
+}
+
 const Map: React.FC<any> = () => {
   const [toggleModal, setToggleModal] = useState<boolean>(false)
   const coords = useSelector((state: RootState) => state.coords)
   const dispatch = useDispatch()
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions())
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  });
 
   const getCoords = (e: any) => {
     if (!e) {
@@ -48,6 +67,7 @@ const Map: React.FC<any> = () => {
         defaultZoom={10}
       />
       {toggleModal && <DialogWindow
+        windowData={windowDimensions}
         close={closeHandler}
       />}
       <button

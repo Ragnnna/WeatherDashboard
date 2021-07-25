@@ -3,5 +3,9 @@ export interface WrappedMapProps {
 }
 
 export interface DialogWindowProps {
-  close: Function
+  close: Function,
+  windowData: {
+    height: number,
+    width: number
+  }
 }
