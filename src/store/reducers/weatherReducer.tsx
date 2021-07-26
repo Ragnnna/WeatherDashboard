@@ -16,7 +16,7 @@ const weatherReducer = (state = initialState, action: actionOptions) => {
     case CLEART_WEATHER_DATA:
       return {
         ...state,
-        weaterData: []
+        weatherData: []
       }
     default:
       return state

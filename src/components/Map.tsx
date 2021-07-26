@@ -6,32 +6,24 @@ import { fetchWeather, handleLogOut } from '../store/actions/asyncAction'
 import { RootState } from '../store/store'
 import { DialogWindow } from './DialogWindow'
 import './components.css'
-
-
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window
-  return {
-    width,
-    height
-  }
-}
+import { getWindowData } from '../config/window'
 
 const Map: React.FC<any> = () => {
   const [toggleModal, setToggleModal] = useState<boolean>(false)
   const coords = useSelector((state: RootState) => state.coords)
   const dispatch = useDispatch()
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowData, setWindowData] = useState(getWindowData());
 
   useEffect(() => {
     function handleResize() {
-      setWindowDimensions(getWindowDimensions())
+      setWindowData(getWindowData())
     }
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   });
 
-  const getCoords = (e: any) => {
+  const getCoords = async (e: any) => {
     if (!e) {
       return navigator.geolocation.getCurrentPosition((pos) => {
         return dispatch(setCoordsAC({
@@ -40,13 +32,15 @@ const Map: React.FC<any> = () => {
         }))
       })
     }
-    setToggleModal(true)
     const { lat, lng } = e.latLng
-    dispatch(fetchWeather(lat, lng))
-    return dispatch(setCoordsAC({
-      lat: lat(),
-      lng: lng()
-    }))
+    const data = await dispatch(fetchWeather(lat, lng))
+    if (data.length) {
+      setToggleModal(true)
+      return dispatch(setCoordsAC({
+        lat: lat(),
+        lng: lng()
+      }))
+    }
   }
 
   const logOutHandler = async () => {
@@ -67,7 +61,7 @@ const Map: React.FC<any> = () => {
         defaultZoom={10}
       />
       {toggleModal && <DialogWindow
-        windowData={windowDimensions}
+        windowData={windowData}
         close={closeHandler}
       />}
       <button

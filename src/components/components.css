@@ -8,9 +8,9 @@
 }
 
 .dialog-modal-block{
-  width: 730px;
+  width: 790px;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 10px;
   height: 550px;
   border: 1px solid black;
   background: #ffffff;
@@ -66,4 +66,9 @@
 
 .btn-signout:hover {
   outline: 2px solid #ffffff;
+}
+
+.bar:hover {
+  cursor: pointer;
+  fill: rgb(107, 78, 78);
 }
