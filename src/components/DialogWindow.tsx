@@ -15,7 +15,7 @@ const DialogWindow: React.FC<DialogWindowProps> = (props) => {
     width: 760
   })
 
-  const modalWindowWidth = 1060
+  const modalWindowWidth = 1160
   const fullScreenWidth = 1920
   const modalWindowHeight = 770
   const fullScreenHeight = 1080
@@ -67,7 +67,7 @@ const DialogWindow: React.FC<DialogWindowProps> = (props) => {
     const xScale = d3.scaleBand()
       .domain(tempList.map((data: tempObject) => data.temp_max))
       .rangeRound([0, widthResult - barPadding])
-      .padding(0.1)
+      .padding(0.25)
 
     const yScale = d3.scaleLinear()
       .domain([0, Math.abs(maxTemp) + 3.5])
@@ -75,11 +75,11 @@ const DialogWindow: React.FC<DialogWindowProps> = (props) => {
 
     const line = d3.line()
       .x((d: any, i: number) => i * ((widthResult / 4)))
-      .y((d: any, i: number) => heightResult / 3 + yScaleTemp2(d) / 3)
+      .y((d: any, i: number) => yScaleTemp2(d) / 2)
       .curve(curveCardinal)
 
     const yScaleTemp2 = d3.scaleLinear()
-      .domain([0, Math.abs(maxTemp) + 2])
+      .domain([0, maxTemp * 3])
       .range([heightResult, 0])
 
     const yScaleTemp = d3.scaleLinear()
@@ -98,7 +98,10 @@ const DialogWindow: React.FC<DialogWindowProps> = (props) => {
       .attr('width', xScale.bandwidth())
       .attr('height', (data: any) => (heightResult - barMargin) - yScale(Math.abs(data.temp)))
       .attr('x', (data: any) => xScale(data.temp_max)!)
-      .attr('y', (data: any) => yScale(Math.abs(data.temp)))
+      .attr('y', (data: any) => data.temp < 1 && data.temp > -1
+        ? yScale(1)
+        : yScale(Math.abs(data.temp))
+      )
       .style('fill', 'gray')
       .attr('transform', 'translate(20, -60)')
       .append('svg:title')
@@ -119,9 +122,11 @@ const DialogWindow: React.FC<DialogWindowProps> = (props) => {
 
     svg
       .append("g")
-      .attr("transform", "translate(33, 12)")
+      .attr("transform", "translate(30, 12)")
       .attr('fill', 'red')
-      .call(d3.axisLeft(yScaleTemp).ticks(7).tickFormat(d3.format('d')))
+      .call(d3
+        .axisLeft(yScaleTemp)
+        .ticks(10).tickFormat(d3.format('d')))
 
   }
 

@@ -69,7 +69,6 @@ export const handleAuth = (provider: any) => {
   return async (dispatch: Function) => {
     const res = await socialAuth(provider)
     if (res === 'error') {
-      console.log('e')
       return
     }
     dispatch(setUserAccessAC())
